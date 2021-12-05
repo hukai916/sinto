@@ -63,7 +63,7 @@ def run_fragments(options):
 def run_tagtorg(options):
     tagtorg.tagtorg(
         bam=options.bam,
-        tag_value_file=options.tagfile,
+        # tag_value_file=options.tagfile,
         tag=options.tag,
         output=options.output,
         out_format=options.outputformat,

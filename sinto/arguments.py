@@ -129,13 +129,13 @@ parser_tagtorg.add_argument(
     default="CB",
     type=str,
 )
-parser_tagtorg.add_argument(
-    "-f",
-    "--tagfile",
-    help="List of expected tag values. Reads with tag values that are not in this list are not altered.",
-    required=True,
-    type=str,
-)
+# parser_tagtorg.add_argument(
+#     "-f",
+#     "--tagfile",
+#     help="List of expected tag values. Reads with tag values that are not in this list are not altered.",
+#     required=True,
+#     type=str,
+# )
 parser_tagtorg.add_argument(
     "-o",
     "--output",
@@ -332,7 +332,7 @@ parser_fragments.add_argument(
     "--collapse_within",
     help="""
     Take cell barcode into account when collapsing duplicate fragments. Setting this
-    flag means that fragments with the same coordinates can be identified provided 
+    flag means that fragments with the same coordinates can be identified provided
     they originate from a different cell barcode.
     """,
     action="store_true",
