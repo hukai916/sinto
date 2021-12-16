@@ -4,6 +4,7 @@ import gzip
 import os
 import pysam
 import re
+import numpy as np
 
 
 def log_info(func):
@@ -38,6 +39,22 @@ def chunk_bam(bamfile, nproc):
         intervals.append(find_chromosome_break(position, chrom_lengths, 0))
     return add_start_coords(intervals, chrom_lengths, bamfile)
 
+def chunk_bam_by_chr(bamfile, nproc):
+    """
+    chunk file into n chunks for each chromosome
+    """
+    chrom_lengths  = bamfile.lengths
+    chrom_names    = bamfile.references
+    chunks_per_chr = []
+    intervals      = {}
+    for chrom_length in chrom_lengths:
+        chunks_per_chr.append(np.linspace(0, chrom_length, num = nproc + 1))
+    for x in range(1, nproc + 1):
+        chunks = []
+        for i in range(len(chrom_names)):
+            chunks.append((chrom_names[i], chunks_per_chr[i][x-1], chunks_per_chr[i][x]))
+        intervals[x] = chunks
+    return intervals
 
 def add_start_coords(intervals, chrom_lengths, bamfile):
     """
@@ -150,7 +167,7 @@ def read_cell_barcode_tag_file(infile):
     Note that each cell barcode can be in multiple groups
 
     Returns a dictionary where the cell barcode is the key,
-    value is a list of tuples. Each tuple in the list is the 
+    value is a list of tuples. Each tuple in the list is the
     read tag and the group.
 
     Parameters
